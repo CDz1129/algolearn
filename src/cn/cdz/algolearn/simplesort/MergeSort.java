@@ -26,15 +26,21 @@ public class MergeSort {
     }
 
     private static void mergeSort(int[] arr, int left, int right) {
-        if (left >= right) {
+        if (right - left <= 15) {
+            SimpleSort.insertSortInt(arr,left,right );
             return;
         }
 
+        if (left - right >= 0){
+            return;
+        }
         int mid = (left + right) / 2;
 
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
-        merge(arr, mid, left, right);
+        if (arr[mid] > arr[mid+1]) {
+            merge(arr, mid, left, right);
+        }
 
     }
 
@@ -77,12 +83,51 @@ public class MergeSort {
         }
     }
 
+    /**
+     * 自下而上 归并排序
+     * @param arr
+     */
+    public static void mergeSortBU(int[] arr){
+        int n = arr.length;
+        //外循环 找出需要归并的两个数组
+        for (int sz = 1; sz < n; sz *= 2) {
+            for (int i = 0; i< n - sz;i+= sz + sz){
+                //对于 arr[i ~ i+sz-1]和 arr[sz ~ i+sz+sz-1]这两个数组判断合并
+                merge(arr,i+sz-1,i,Math.min(i+2*sz-1,n-1));
+            }
+        }
+
+        //常规优化，对于小于一定数量的数组排序 用 插入排序
+    }
+
+    /**
+     * 自下而上 归并排序
+     * 常规优化，对于小于一定数量的数组排序 用 插入排序
+     * @param arr
+     */
+    public static void betterMergeSortBU(int[] arr){
+        int n = arr.length;
+        for (int i = 0; i < n; i+=16) {
+            SimpleSort.insertSortInt(arr,i,Math.min(i+15,n-1));
+        }
+
+        //外循环 找出需要归并的两个数组
+        for (int sz = 16; sz < n; sz += sz) {
+            for (int i = 0; i< n - sz;i+= sz + sz){
+                //对于 arr[i ~ i+sz-1]和 arr[sz ~ i+sz+sz-1]这两个数组判断合并
+                if (arr[i + sz - 1] > arr[i+sz]) {
+                    merge(arr,i+sz-1,i,Math.min(i+2*sz-1,n-1));
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
 
-        int[] arr = CommonUtils.getArr(100_0000, 0, 10000);
-
-        int[] ints = Arrays.copyOfRange(arr, 10, 20);
-        CommonUtils.printArr(ints);
+        int[] arr = CommonUtils.getArr(1_000_000, 20, 1_000_000);
+        int[] ints1 = CommonUtils.copeInt(arr);
+        int[] ints = CommonUtils.copeInt(arr);
         CommonUtils.testArr("mergeSort", MergeSort::mergeSort, arr);
+        CommonUtils.testArr("mergeSortBU",MergeSort::mergeSortBU,ints1);
+        CommonUtils.testArr("betterMergeSortBU",MergeSort::betterMergeSortBU,ints);
     }
 }

@@ -51,11 +51,11 @@ public class SimpleSort {
      * @param right 右边index
      */
     public static void  insertSortInt(int[] arr,int left,int right){
-        for (int i = left; i <= right; i++) {
+        for (int i = left+1; i <= right; i++) {
             //复制一个对比 元素
             int e = arr[i];
             int j;
-            for (j = i; j > 0 && e < arr[j - 1]; j--) {
+            for (j = i; j > left && e < arr[j - 1]; j--) {
                 arr[j] = arr[j - 1];
             }
             arr[j] = e;
@@ -148,15 +148,15 @@ public class SimpleSort {
 
     public static void main(String[] args) {
 
-        int[] arr = CommonUtils.getArr(1_000_000, 0, 20);
-//        int[] ints = CommonUtils.copeInt(arr);
+        int[] arr = CommonUtils.getArr(10_000, 0, 10_000);
+        int[] ints = CommonUtils.copeInt(arr);
         int[] ints1 = CommonUtils.copeInt(arr);
-//        int[] ints2 = CommonUtils.copeInt(arr);
-//        int[] ints3 = CommonUtils.copeInt(arr);
-//        CommonUtils.testArr("selectSort",SimpleSort::selectSortInt,ints3);
-//        CommonUtils.testArr("insertSort",SimpleSort::selectSortInt,ints2);
-//        CommonUtils.testArr("bubbleSortInt",SimpleSort::bubbleSortInt,ints);
-//        CommonUtils.testArr("betterBubbleSortInt",SimpleSort::betterBubbleSortInt,arr);
+        int[] ints2 = CommonUtils.copeInt(arr);
+        int[] ints3 = CommonUtils.copeInt(arr);
+        CommonUtils.testArr("selectSort",SimpleSort::selectSortInt,ints3);
+        CommonUtils.testArr("insertSort",SimpleSort::selectSortInt,ints2);
+        CommonUtils.testArr("bubbleSortInt",SimpleSort::bubbleSortInt,ints);
+        CommonUtils.testArr("betterBubbleSortInt",SimpleSort::betterBubbleSortInt,arr);
         CommonUtils.testArr("shellSort",SimpleSort::shellSort,ints1);
     }
 }
