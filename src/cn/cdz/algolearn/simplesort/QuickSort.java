@@ -26,6 +26,7 @@ public class QuickSort {
     private static int partition(int[] arr, int l, int r) {
         Random random = new Random();
         int rand = l+random.nextInt(r - l + 1);
+        CommonUtils.swap(arr,l,rand);
         //标记元素
         int p = arr[l];
         int j = l;
@@ -64,6 +65,10 @@ public class QuickSort {
 
 
     public static void main(String[] args) {
+        int[] arr = CommonUtils.getArr(1_000_000, 0, 20);
+//        int[] nearlyIntArray = CommonUtils.getNearlyIntArray(10_000, 20);
+        CommonUtils.testArr("quickSort",QuickSort::quickSort,arr);
+//        CommonUtils.testArr("quickSort",QuickSort::quickSort,nearlyIntArray);
 
     }
 }

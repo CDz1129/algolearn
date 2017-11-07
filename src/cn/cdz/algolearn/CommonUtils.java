@@ -52,6 +52,28 @@ public class CommonUtils {
     }
 
     /**
+     * 获取近乎有序的数组
+     * @param n 数组长度
+     * @param swapNum 无序对数
+     * @return
+     */
+    public static int[] getNearlyIntArray(int n,int swapNum){
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = i;
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < swapNum; i++) {
+            int a = random.nextInt(n);
+            int b = random.nextInt(n);
+            int temp = arr[b];
+            arr[b] = arr[a];
+            arr[a] = temp;
+        }
+        return arr;
+    }
+    /**
      * 交换数组中两个数
      *
      * @param arr
