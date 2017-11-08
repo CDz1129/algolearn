@@ -82,6 +82,23 @@ public class QuickSort {
     }
 
     /**
+     * 快速排序算法优化方法2
+     * 三路查找
+     *
+     * @param arr 数组
+     * @param l   左边边界
+     * @param r   右边边界
+     */
+    private static void quickSort3Ways(int[] arr, int l, int r) {
+        //递归的结束条件
+        if (r - l < 16) {
+            SimpleSort.insertSortInt(arr, l, r);
+            return;
+        }
+        partition3Ways(arr, l, r);
+    }
+
+    /**
      * 两路寻找，将相等的那一部分分布大于其，和小于其部分。
      * <p>
      * 思路，从数组开始的地方查找，同时也从后向前查找
@@ -101,10 +118,14 @@ public class QuickSort {
         int i = l + 1;
         int j = r;
         while (true) {
-            while (i < r && arr[i] < p) {
+            // 这里 i <= r 有等号 是保证扫描 [l+1...r]区间内所有的元素
+            //arr[i] < p 不加等号，当加上等号时，若是出现 连续相等的情况，会使 生成 的树及其不平衡，进而退化到 O(n^2)
+            while (i <= r && arr[i] < p) {
                 i++;
             }
-            while (j > l + 1 && arr[j] > p) {
+            // j >= l + 1 有等号 是保证扫描 [l+1...r]区间内所有元素
+            // arr[j] > p 不加等号，与上同理
+            while (j >= l + 1 && arr[j] > p) {
                 j--;
             }
 
@@ -116,8 +137,56 @@ public class QuickSort {
             i++;
             j--;
         }
+
         CommonUtils.swap(arr, l, j);
+
         return j;
+    }
+
+    /**
+     * 三路查找核心，遍历一遍数组，其元素与比判断元素的比较
+     * 大于 放入 arr[gt...r]中 既是 gr-- 交换(gt,i)，i 不动
+     * 等于 放入 arr[lt+1...i)中 即不需要交换 但 i++
+     * 小于 放入 arr[l+1...lt]中 既是 lt++ 交换(lt.i), i++
+     *
+     * @param arr
+     * @param l
+     * @param r
+     * @return
+     */
+    private static void partition3Ways(int[] arr, int l, int r) {
+        Random random = new Random();
+        int rand = l + random.nextInt(r - l + 1);
+        CommonUtils.swap(arr, l, rand);
+        //标记元素
+        int p = arr[l];
+
+        //设置三数组边界，使得其初始化时为空数组。
+
+        //int[l+1...lt] < p
+        int lt = l;
+        //int[gt...r] < p
+        int gt = r + 1;
+        //int[lt+1...i) = p
+        int i = l + 1;
+
+        while (gt > i) {
+            if (arr[i] > p) {
+                gt--;
+                CommonUtils.swap(arr, i, gt);
+            } else if (arr[i] < p) {
+                lt++;
+                CommonUtils.swap(arr, i, lt);
+                i++;
+            } else {
+                i++;
+            }
+        }
+        CommonUtils.swap(arr, l, lt);
+        //此时 lt-1 是因为第一个元素交换后，将arr[l+1...lt]变成了--> arr[l,lt-1]
+        quickSort3Ways(arr, l, lt-1);
+        quickSort3Ways(arr, gt, r);
+
     }
 
     public static void quickSort(int[] arr) {
@@ -128,14 +197,23 @@ public class QuickSort {
         quickSort2Ways(arr, 0, arr.length - 1);
     }
 
+    private static void quickSort3Ways(int[] arr) {
+        quickSort3Ways(arr, 0, arr.length - 1);
+    }
+
 
     public static void main(String[] args) {
         int[] arr = CommonUtils.getArr(1_000_000, 0, 20);
         int[] nearlyIntArray = CommonUtils.getNearlyIntArray(1_000_000, 20);
-//        CommonUtils.testArr("quickSort", QuickSort::quickSort, arr);
-        CommonUtils.testArr("quickSort2Ways", QuickSort::quickSort2Ways, arr);
-        CommonUtils.testArr("quickSort2Ways", QuickSort::quickSort2Ways, nearlyIntArray);
-        CommonUtils.testArr("quickSort", QuickSort::quickSort, nearlyIntArray);
-
+        int[] arr1 = CommonUtils.getArr(1_000_000, 0, 1_000_000);
+        int[] ints = CommonUtils.copeInt(arr);
+        int[] ints1 = CommonUtils.copeInt(nearlyIntArray);
+        int[] ints2 = CommonUtils.copeInt(arr1);
+        CommonUtils.testArr("quickSort2Ways : 多数重复元素 数组", QuickSort::quickSort2Ways, arr);
+        CommonUtils.testArr("quickSort2Ways : 接近有序 数组", QuickSort::quickSort2Ways, nearlyIntArray);
+        CommonUtils.testArr("quickSort2Ways : 随机无序 数组", QuickSort::quickSort2Ways, arr1);
+        CommonUtils.testArr("quickSort3Ways : 多数重复元素 数组", QuickSort::quickSort3Ways, ints);
+        CommonUtils.testArr("quickSort3Ways : 接近有序 数组", QuickSort::quickSort3Ways, ints1);
+        CommonUtils.testArr("quickSort3Ways : 随机无序 数组", QuickSort::quickSort3Ways, ints2);
     }
 }
