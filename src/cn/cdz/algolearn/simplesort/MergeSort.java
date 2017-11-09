@@ -28,10 +28,6 @@ public class MergeSort {
             SimpleSort.insertSortInt(arr, left, right);
             return;
         }
-
-        if (left - right >= 0) {
-            return;
-        }
         int mid = (left + right) / 2;
 
         mergeSort(arr, left, mid);

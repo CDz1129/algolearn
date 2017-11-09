@@ -193,11 +193,11 @@ public class QuickSort {
         quickSort(arr, 0, arr.length - 1);
     }
 
-    private static void quickSort2Ways(int[] arr) {
+    public static void quickSort2Ways(int[] arr) {
         quickSort2Ways(arr, 0, arr.length - 1);
     }
 
-    private static void quickSort3Ways(int[] arr) {
+    public static void quickSort3Ways(int[] arr) {
         quickSort3Ways(arr, 0, arr.length - 1);
     }
 
