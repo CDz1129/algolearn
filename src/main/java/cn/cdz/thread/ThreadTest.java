@@ -58,6 +58,8 @@ public class ThreadTest {
         try {
             a.join();
             System.out.println("a join执行完了~");
+            b.join();
+            System.out.println("b join执行完了~");
 
             //join 方法 如果没有传入时间时，当b线程结束之后才会执行下面的代码。
             //当传入时间时，由于在当时间过后，就会执行下面的代码
