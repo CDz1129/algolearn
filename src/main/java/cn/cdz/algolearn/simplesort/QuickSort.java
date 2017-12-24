@@ -10,7 +10,7 @@ import java.util.Random;
  * Time: 11:05
  * 快速排序
  */
-public class QuickSort {
+public class QuickSort<T extends Comparable> {
 
 
     /**
@@ -23,15 +23,15 @@ public class QuickSort {
      * @param r   右边边界
      * @return 返回 arr[p] 使得在数组 arr[l ~ p-1] < arr[p] < arr[p+1 ~ r]
      */
-    private static int partition(int[] arr, int l, int r) {
+    private static int partition(Comparable[] arr, int l, int r) {
         Random random = new Random();
         int rand = l + random.nextInt(r - l + 1);
         CommonUtils.swap(arr, l, rand);
         //标记元素
-        int p = arr[l];
+        Comparable p = arr[l];
         int j = l;
         for (int i = l + 1; i <= r; i++) {
-            if (arr[i] < p) {
+            if (arr[i].compareTo(p) < 0) {
                 j++;
                 CommonUtils.swap(arr, i, j);
             }
@@ -47,7 +47,7 @@ public class QuickSort {
      * @param l   左边边界
      * @param r   右边边界
      */
-    private static void quickSort(int[] arr, int l, int r) {
+    private static void quickSort(Comparable[] arr, int l, int r) {
         //递归的结束条件
         if (l >= r) {
             return;
@@ -68,7 +68,7 @@ public class QuickSort {
      * @param l   左边边界
      * @param r   右边边界
      */
-    private static void quickSort2Ways(int[] arr, int l, int r) {
+    private static void quickSort2Ways(Comparable[] arr, int l, int r) {
         //递归的结束条件
         if (r - l < 16) {
             SimpleSort.insertSortInt(arr, l, r);
@@ -91,20 +91,20 @@ public class QuickSort {
      * @param r   右边边界
      * @return
      */
-    private static int partition2Ways(int[] arr, int l, int r) {
+    private static int partition2Ways(Comparable[] arr, int l, int r) {
         Random random = new Random();
         int rand = l + random.nextInt(r - l + 1);
         CommonUtils.swap(arr, l, rand);
         //标记元素
-        int p = arr[l];
+        Comparable p = arr[l];
         //arr[l+1 ~ j) <= p;  arr(j ~ r] >= p
         int i = l + 1;
         int j = r;
         while (true) {
-            while (i < r && arr[i] < p) {
+            while (i < r && arr[i].compareTo(p) < 0) {
                 i++;
             }
-            while (j > l + 1 && arr[j] > p) {
+            while (j > l + 1 && arr[j].compareTo(p) > 0) {
                 j--;
             }
 
@@ -120,18 +120,18 @@ public class QuickSort {
         return j;
     }
 
-    public static void quickSort(int[] arr) {
+    public static void quickSort(Comparable[] arr) {
         quickSort(arr, 0, arr.length - 1);
     }
 
-    private static void quickSort2Ways(int[] arr) {
+    private static void quickSort2Ways(Comparable[] arr) {
         quickSort2Ways(arr, 0, arr.length - 1);
     }
 
 
     public static void main(String[] args) {
-        int[] arr = CommonUtils.getArr(1_000_000, 0, 20);
-        int[] nearlyIntArray = CommonUtils.getNearlyIntArray(1_000_000, 20);
+        Integer[] arr = CommonUtils.getArr(1_000_000, 0, 20);
+        Integer[] nearlyIntArray = CommonUtils.getNearlyIntArray(1_000_000, 20);
 //        CommonUtils.testArr("quickSort", QuickSort::quickSort, arr);
         CommonUtils.testArr("quickSort2Ways", QuickSort::quickSort2Ways, arr);
         CommonUtils.testArr("quickSort2Ways", QuickSort::quickSort2Ways, nearlyIntArray);

@@ -7,7 +7,7 @@ import cn.cdz.algolearn.CommonUtils;
  * Date: 2017/10/26
  * Time: 14:23
  */
-public class SimpleSort {
+public class SimpleSort<T extends Comparable> {
 
     /**
      * 选择排序
@@ -15,10 +15,10 @@ public class SimpleSort {
      * @param arr
      * @return
      */
-    public static void selectSortInt(int[] arr) {
+    public static void selectSortInt(Comparable[] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = i; j < arr.length; j++) {
-                if (arr[i] > arr[j]) {
+                if (arr[i].compareTo(arr[j]) > 0) {
                     CommonUtils.swap(arr, i, j);
                 }
             }
@@ -31,13 +31,13 @@ public class SimpleSort {
      * @param arr
      * @return
      */
-    public static void insertSortInt(int[] arr) {
+    public static void insertSortInt(Comparable[] arr) {
 
         for (int i = 1; i < arr.length; i++) {
             //复制一个对比 元素
-            int e = arr[i];
+            Comparable e = arr[i];
             int j;
-            for (j = i; j > 0 && e < arr[j - 1]; j--) {
+            for (j = i; j > 0 && e.compareTo(arr[j - 1]) < 0; j--) {
                 arr[j] = arr[j - 1];
             }
             arr[j] = e;
@@ -50,12 +50,12 @@ public class SimpleSort {
      * @param left 左边index
      * @param right 右边index
      */
-    public static void  insertSortInt(int[] arr,int left,int right){
+    public static void  insertSortInt(Comparable[] arr,int left,int right){
         for (int i = left+1; i <= right; i++) {
             //复制一个对比 元素
-            int e = arr[i];
+            Comparable e = arr[i];
             int j;
-            for (j = i; j > left && e < arr[j - 1]; j--) {
+            for (j = i; j > left && e.compareTo(arr[j - 1]) < 0; j--) {
                 arr[j] = arr[j - 1];
             }
             arr[j] = e;
@@ -70,7 +70,7 @@ public class SimpleSort {
      *
      * @param arr
      */
-    public static void shellSort(int[] arr) {
+    public static void shellSort(Comparable[] arr) {
 
 
         int d = arr.length;
@@ -78,9 +78,9 @@ public class SimpleSort {
             d = d / 2;
             for (int x = 0; x < d; x++) {
                 for (int i = x + d; i < arr.length; i = i + d) {
-                    int temp = arr[i];
+                    Comparable temp = arr[i];
                     int j;
-                    for (j = i - d; j >= 0 && arr[j] > temp; j = j - d) {
+                    for (j = i - d; j >= 0 && arr[j].compareTo(temp) > 0; j = j - d) {
                         arr[j + d] = arr[j];
                     }
                     arr[j + d] = temp;
@@ -98,11 +98,11 @@ public class SimpleSort {
      *
      * @param arr
      */
-    public static void bubbleSortInt(int[] arr) {
+    public static void bubbleSortInt(Comparable[] arr) {
 //        boolean flag = false;//优化内循环
         for (int i = 0; i < arr.length; i++) {
             for (int j = 1; j < arr.length - i; j++) {
-                if (arr[j] < arr[j - 1]) {
+                if (arr[j].compareTo(arr[j - 1]) < 0) {
                     CommonUtils.swap(arr, j, j - 1);
                 }
             }
@@ -117,7 +117,7 @@ public class SimpleSort {
      *
      * @param arr
      */
-    public static void betterBubbleSortInt(int[] arr) {
+    public static void betterBubbleSortInt(Comparable[] arr) {
         int i, j, pos = 0;//i 内循环下标 、j 内循环下标 pos最后一次交互的下标
         int k = arr.length;//内循环初始值
 
@@ -125,7 +125,7 @@ public class SimpleSort {
         for (i = 0; i < arr.length; i++) {
             flag = true;
             for (j = 1; j < k; j++) {
-                if (arr[j] < arr[j - 1]) {
+                if (arr[j].compareTo(arr[j - 1]) < 0) {
                     CommonUtils.swap(arr, j, j - 1);
                     //确定每次交互的位子
                     pos = j;
@@ -148,11 +148,11 @@ public class SimpleSort {
 
     public static void main(String[] args) {
 
-        int[] arr = CommonUtils.getArr(10_000, 0, 10_000);
-        int[] ints = CommonUtils.copeInt(arr);
-        int[] ints1 = CommonUtils.copeInt(arr);
-        int[] ints2 = CommonUtils.copeInt(arr);
-        int[] ints3 = CommonUtils.copeInt(arr);
+        Integer[] arr = CommonUtils.getArr(10_000, 0, 10_000);
+        Integer[] ints = CommonUtils.copeInt(arr);
+        Integer[] ints1 = CommonUtils.copeInt(arr);
+        Integer[] ints2 = CommonUtils.copeInt(arr);
+        Integer[] ints3 = CommonUtils.copeInt(arr);
         CommonUtils.testArr("selectSort",SimpleSort::selectSortInt,ints3);
         CommonUtils.testArr("insertSort",SimpleSort::selectSortInt,ints2);
         CommonUtils.testArr("bubbleSortInt",SimpleSort::bubbleSortInt,ints);
