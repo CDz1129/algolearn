@@ -1,10 +1,7 @@
 package cn.cdz.algolearn.heapsort;
 
 import cn.cdz.algolearn.CommonUtils;
-import cn.cdz.java8.fork.ForkJoinSumCalculator;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
-import java.util.Date;
 import java.util.Random;
 
 /**
