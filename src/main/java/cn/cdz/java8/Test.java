@@ -5,6 +5,8 @@ import cn.cdz.java8.bean.Man;
 import cn.cdz.java8.bean.SuperMan;
 import cn.cdz.java8.utils.MyJava8Utiles;
 
+import javax.sound.midi.Soundbank;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 /**
@@ -31,15 +33,21 @@ public class Test {
 //        Apple apple = new Apple();
 //        System.out.println(apple.hashCode());
 
-        HashMap<Integer, Integer> integerIntegerHashMap = new HashMap<>();
-        integerIntegerHashMap.put(1,1);
-        integerIntegerHashMap.put(2,2);
-        integerIntegerHashMap.put(3,3);
-
-        for (Integer integer : integerIntegerHashMap.keySet()) {
-            integerIntegerHashMap.remove(integer);
-        }
-
+//        HashMap<Integer, Integer> integerIntegerHashMap = new HashMap<>();
+//        integerIntegerHashMap.put(1,1);
+//        integerIntegerHashMap.put(2,2);
+//        integerIntegerHashMap.put(3,3);
+//
+//        for (Integer integer : integerIntegerHashMap.keySet()) {
+//            integerIntegerHashMap.remove(integer);
+//        }
+            double temp = 100;
+            for (int i = 1; i <= 20; i++) {
+                temp = temp*1.1;
+                System.out.println("第"+i+"年："+temp);
+            }
+            System.out.println("最后可的："+temp);
+        System.out.println("最后的倍率为:"+temp/100);
     }
 
     public static void testHelp() throws InterruptedException{
