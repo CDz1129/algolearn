@@ -10,8 +10,8 @@ import java.util.Random;
  * Time: 15:12
  * 算法衍生问题，找到数组中第n位的 元素
  */
-public class SelectArrNumAlgo {
-    public static int selectArrNum(int[] arr, int index) {
+public class SelectArrNumAlgo<T extends Comparable> {
+    public static Integer selectArrNum(Comparable[] arr, int index) {
         return quickSort3Ways(arr, 0, arr.length - 1, index);
     }
 
@@ -22,12 +22,13 @@ public class SelectArrNumAlgo {
      * @param r
      * @return
      */
-    private static int partition3Ways(int[] arr, int l, int r, int index) {
+    private static Integer partition3Ways(Comparable[] arr, int l, int r, int index) {
+
         Random random = new Random();
         int rand = l + random.nextInt(r - l + 1);
         CommonUtils.swap(arr, l, rand);
         //标记元素
-        int p = arr[l];
+        Comparable p = arr[l];
 
         //设置三数组边界，使得其初始化时为空数组。
 
@@ -39,10 +40,10 @@ public class SelectArrNumAlgo {
         int i = l + 1;
 
         while (gt > i) {
-            if (arr[i] > p) {
+            if (arr[i].compareTo(p) > 0) {
                 gt--;
                 CommonUtils.swap(arr, i, gt);
-            } else if (arr[i] < p) {
+            } else if (arr[i].compareTo(p) < 0) {
                 lt++;
                 CommonUtils.swap(arr, i, lt);
                 i++;
@@ -71,7 +72,7 @@ public class SelectArrNumAlgo {
         }
     }
 
-    private static int quickSort3Ways(int[] arr, int l, int r, int index) {
+    private static Integer quickSort3Ways(Comparable[] arr, int l, int r, int index) {
         //递归的结束条件
         if (r - l <= 0) {
             return 0;
@@ -80,11 +81,11 @@ public class SelectArrNumAlgo {
     }
 
     public static void main(String[] args) {
-        int[] arr = CommonUtils.getArr(1_000_000, 100, 1_000_000);
-        int[] ints = CommonUtils.copeInt(arr);
+        Integer[] arr = CommonUtils.getArr(1_000_000, 100, 1_000_000);
+        Integer[] ints = CommonUtils.copeInt(arr);
         QuickSort.quickSort3Ways(ints);
         int index = 1_000;
-        int i = selectArrNum(arr, index);
+        Comparable i = selectArrNum(arr, index);
         System.out.println(ints[index]);
         System.out.println(i);
     }

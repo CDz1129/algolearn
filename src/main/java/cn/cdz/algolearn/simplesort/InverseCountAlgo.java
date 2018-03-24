@@ -12,11 +12,11 @@ import java.util.Arrays;
  */
 public class InverseCountAlgo {
 
-    public static long inverseCount(int[] arr) {
+    public static long inverseCount(Comparable[] arr) {
         return inverse(arr, 0, arr.length - 1);
     }
 
-    private static long inverse(int[] arr, int left, int right) {
+    private static long inverse(Comparable[] arr, int left, int right) {
 
         if (left - right >= 0) {
             return 0;
@@ -41,9 +41,9 @@ public class InverseCountAlgo {
      * @param right
      * @return
      */
-    private static long merge(int[] arr, int left, int mid, int right) {
+    private static long merge(Comparable[] arr, int left, int mid, int right) {
 
-        int[] aux = Arrays.copyOfRange(arr, left, right + 1);
+        Comparable[] aux = Arrays.copyOfRange(arr, left, right + 1);
 
         long inverseNum = 0;
         int k;
@@ -58,7 +58,7 @@ public class InverseCountAlgo {
                 // 如果右半部分元素已经全部处理完毕
                 arr[k] = aux[i - left];
                 i++;
-            } else if (aux[i - left] <= aux[j - left]){
+            } else if (aux[i - left].compareTo(aux[j - left]) <= 0){
                 // 左半部分所指元素 <= 右半部分所指元素
                 arr[k] = aux[i - left];
                 i++;
@@ -76,8 +76,8 @@ public class InverseCountAlgo {
 
 
     public static void main(String[] args) {
-        int[] arr = CommonUtils.getArr(1_000_000, 0, 1_000_000);
-        int[] nearlyIntArray = CommonUtils.getNearlyIntArray(100_000, 0);
+        Integer[] arr = CommonUtils.getArr(1_000_000, 0, 1_000_000);
+        Integer[] nearlyIntArray = CommonUtils.getNearlyIntArray(100_000, 0);
         long i = inverseCount(arr);
         CommonUtils.testArr("inverseCountAlgo",InverseCountAlgo::inverseCount,arr);
         System.out.println(i);
